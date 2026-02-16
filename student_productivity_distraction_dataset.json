@@ -1,0 +1,314 @@
+{
+  "metadata": {
+    "kernelspec": {
+      "name": "python",
+      "display_name": "Python (Pyodide)",
+      "language": "python"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "python",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.8"
+    },
+    "widgets": {
+      "application/vnd.jupyter.widget-state+json": {
+        "version_major": 2,
+        "version_minor": 0,
+        "state": {}
+      }
+    }
+  },
+  "nbformat_minor": 5,
+  "nbformat": 4,
+  "cells": [
+    {
+      "id": "35f0d9f7-0d86-4e8a-a8d6-e8f802939ee1",
+      "cell_type": "code",
+      "source": "import pandas as pd",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [],
+      "execution_count": 1
+    },
+    {
+      "id": "4d9a9cac-485e-46fa-884b-930c8065542e",
+      "cell_type": "code",
+      "source": "import numpy as np",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [],
+      "execution_count": 2
+    },
+    {
+      "id": "d593586d-6a7a-4726-8d49-40ca8be15e3b",
+      "cell_type": "code",
+      "source": "df=pd.read_csv('student_productivity_distraction_dataset_20000.csv')",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [],
+      "execution_count": 3
+    },
+    {
+      "id": "bf237f8a-81d8-44bf-8974-894a902147a5",
+      "cell_type": "code",
+      "source": "df.info()",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 20000 entries, 0 to 19999\nData columns (total 18 columns):\n #   Column                 Non-Null Count  Dtype  \n---  ------                 --------------  -----  \n 0   student_id             20000 non-null  int64  \n 1   age                    20000 non-null  int64  \n 2   gender                 20000 non-null  object \n 3   study_hours_per_day    20000 non-null  float64\n 4   sleep_hours            20000 non-null  float64\n 5   phone_usage_hours      20000 non-null  float64\n 6   social_media_hours     20000 non-null  float64\n 7   youtube_hours          20000 non-null  float64\n 8   gaming_hours           20000 non-null  float64\n 9   breaks_per_day         20000 non-null  int64  \n 10  coffee_intake_mg       20000 non-null  int64  \n 11  exercise_minutes       20000 non-null  int64  \n 12  assignments_completed  20000 non-null  int64  \n 13  attendance_percentage  20000 non-null  float64\n 14  stress_level           20000 non-null  int64  \n 15  focus_score            20000 non-null  int64  \n 16  final_grade            20000 non-null  float64\n 17  productivity_score     20000 non-null  float64\ndtypes: float64(9), int64(8), object(1)\nmemory usage: 2.7+ MB\n"
+        }
+      ],
+      "execution_count": 5
+    },
+    {
+      "id": "88d870b5-7728-4172-a59c-33831f8a900d",
+      "cell_type": "code",
+      "source": "df.describe()",
+      "metadata": {
+        "trusted": true,
+        "scrolled": true
+      },
+      "outputs": [
+        {
+          "execution_count": 7,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "         student_id          age  study_hours_per_day   sleep_hours  \\\ncount  20000.000000  20000.00000         20000.000000  20000.000000   \nmean   10000.500000     23.00745             5.254562      6.517799   \nstd     5773.647028      3.75489             2.742876      2.029784   \nmin        1.000000     17.00000             0.500000      3.000000   \n25%     5000.750000     20.00000             2.900000      4.770000   \n50%    10000.500000     23.00000             5.250000      6.510000   \n75%    15000.250000     26.00000             7.640000      8.310000   \nmax    20000.000000     29.00000            10.000000     10.000000   \n\n       phone_usage_hours  social_media_hours  youtube_hours  gaming_hours  \\\ncount       20000.000000        20000.000000   20000.000000  20000.000000   \nmean            6.250479            4.003655       2.990177      2.988339   \nstd             3.313082            2.305154       1.729815      1.732803   \nmin             0.500000            0.000000       0.000000      0.000000   \n25%             3.380000            2.000000       1.487500      1.490000   \n50%             6.240000            4.010000       2.980000      2.970000   \n75%             9.102500            5.970000       4.480000      4.490000   \nmax            12.000000            8.000000       6.000000      6.000000   \n\n       breaks_per_day  coffee_intake_mg  exercise_minutes  \\\ncount    20000.000000      20000.000000      20000.000000   \nmean         7.542400        249.654550         59.648050   \nstd          4.016231        143.711231         34.611751   \nmin          1.000000          0.000000          0.000000   \n25%          4.000000        125.000000         30.000000   \n50%          8.000000        249.000000         60.000000   \n75%         11.000000        373.000000         90.000000   \nmax         14.000000        499.000000        119.000000   \n\n       assignments_completed  attendance_percentage  stress_level  \\\ncount           20000.000000           20000.000000  20000.000000   \nmean                9.494100              69.947435      5.478750   \nstd                 5.801469              17.397431      2.866943   \nmin                 0.000000              40.000000      1.000000   \n25%                 4.000000              54.810000      3.000000   \n50%                 9.000000              69.985000      5.000000   \n75%                15.000000              85.050000      8.000000   \nmax                19.000000             100.000000     10.000000   \n\n        focus_score   final_grade  productivity_score  \ncount  20000.000000  20000.000000        20000.000000  \nmean      64.444350     70.266409           50.180419  \nstd       20.176114     17.282277           16.086666  \nmin       30.000000     40.000000            0.000000  \n25%       47.000000     55.460000           38.700000  \n50%       65.000000     70.315000           50.235000  \n75%       82.000000     85.340000           61.782500  \nmax       99.000000     99.990000          100.000000  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>student_id</th>\n      <th>age</th>\n      <th>study_hours_per_day</th>\n      <th>sleep_hours</th>\n      <th>phone_usage_hours</th>\n      <th>social_media_hours</th>\n      <th>youtube_hours</th>\n      <th>gaming_hours</th>\n      <th>breaks_per_day</th>\n      <th>coffee_intake_mg</th>\n      <th>exercise_minutes</th>\n      <th>assignments_completed</th>\n      <th>attendance_percentage</th>\n      <th>stress_level</th>\n      <th>focus_score</th>\n      <th>final_grade</th>\n      <th>productivity_score</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>count</th>\n      <td>20000.000000</td>\n      <td>20000.00000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n      <td>20000.000000</td>\n    </tr>\n    <tr>\n      <th>mean</th>\n      <td>10000.500000</td>\n      <td>23.00745</td>\n      <td>5.254562</td>\n      <td>6.517799</td>\n      <td>6.250479</td>\n      <td>4.003655</td>\n      <td>2.990177</td>\n      <td>2.988339</td>\n      <td>7.542400</td>\n      <td>249.654550</td>\n      <td>59.648050</td>\n      <td>9.494100</td>\n      <td>69.947435</td>\n      <td>5.478750</td>\n      <td>64.444350</td>\n      <td>70.266409</td>\n      <td>50.180419</td>\n    </tr>\n    <tr>\n      <th>std</th>\n      <td>5773.647028</td>\n      <td>3.75489</td>\n      <td>2.742876</td>\n      <td>2.029784</td>\n      <td>3.313082</td>\n      <td>2.305154</td>\n      <td>1.729815</td>\n      <td>1.732803</td>\n      <td>4.016231</td>\n      <td>143.711231</td>\n      <td>34.611751</td>\n      <td>5.801469</td>\n      <td>17.397431</td>\n      <td>2.866943</td>\n      <td>20.176114</td>\n      <td>17.282277</td>\n      <td>16.086666</td>\n    </tr>\n    <tr>\n      <th>min</th>\n      <td>1.000000</td>\n      <td>17.00000</td>\n      <td>0.500000</td>\n      <td>3.000000</td>\n      <td>0.500000</td>\n      <td>0.000000</td>\n      <td>0.000000</td>\n      <td>0.000000</td>\n      <td>1.000000</td>\n      <td>0.000000</td>\n      <td>0.000000</td>\n      <td>0.000000</td>\n      <td>40.000000</td>\n      <td>1.000000</td>\n      <td>30.000000</td>\n      <td>40.000000</td>\n      <td>0.000000</td>\n    </tr>\n    <tr>\n      <th>25%</th>\n      <td>5000.750000</td>\n      <td>20.00000</td>\n      <td>2.900000</td>\n      <td>4.770000</td>\n      <td>3.380000</td>\n      <td>2.000000</td>\n      <td>1.487500</td>\n      <td>1.490000</td>\n      <td>4.000000</td>\n      <td>125.000000</td>\n      <td>30.000000</td>\n      <td>4.000000</td>\n      <td>54.810000</td>\n      <td>3.000000</td>\n      <td>47.000000</td>\n      <td>55.460000</td>\n      <td>38.700000</td>\n    </tr>\n    <tr>\n      <th>50%</th>\n      <td>10000.500000</td>\n      <td>23.00000</td>\n      <td>5.250000</td>\n      <td>6.510000</td>\n      <td>6.240000</td>\n      <td>4.010000</td>\n      <td>2.980000</td>\n      <td>2.970000</td>\n      <td>8.000000</td>\n      <td>249.000000</td>\n      <td>60.000000</td>\n      <td>9.000000</td>\n      <td>69.985000</td>\n      <td>5.000000</td>\n      <td>65.000000</td>\n      <td>70.315000</td>\n      <td>50.235000</td>\n    </tr>\n    <tr>\n      <th>75%</th>\n      <td>15000.250000</td>\n      <td>26.00000</td>\n      <td>7.640000</td>\n      <td>8.310000</td>\n      <td>9.102500</td>\n      <td>5.970000</td>\n      <td>4.480000</td>\n      <td>4.490000</td>\n      <td>11.000000</td>\n      <td>373.000000</td>\n      <td>90.000000</td>\n      <td>15.000000</td>\n      <td>85.050000</td>\n      <td>8.000000</td>\n      <td>82.000000</td>\n      <td>85.340000</td>\n      <td>61.782500</td>\n    </tr>\n    <tr>\n      <th>max</th>\n      <td>20000.000000</td>\n      <td>29.00000</td>\n      <td>10.000000</td>\n      <td>10.000000</td>\n      <td>12.000000</td>\n      <td>8.000000</td>\n      <td>6.000000</td>\n      <td>6.000000</td>\n      <td>14.000000</td>\n      <td>499.000000</td>\n      <td>119.000000</td>\n      <td>19.000000</td>\n      <td>100.000000</td>\n      <td>10.000000</td>\n      <td>99.000000</td>\n      <td>99.990000</td>\n      <td>100.000000</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 7
+    },
+    {
+      "id": "5feace20-01be-46d6-aaf7-d09e410da2ce",
+      "cell_type": "code",
+      "source": "df.shape",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "execution_count": 11,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "(20000, 18)"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 11
+    },
+    {
+      "id": "e6b8bea9-cdee-4a96-b946-46d357abd11d",
+      "cell_type": "code",
+      "source": "first5 = df.head(5)\ndisplay(first5)\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": "   student_id  age  gender  study_hours_per_day  sleep_hours  \\\n0           1   23  Female                 4.35         3.63   \n1           2   20    Male                 6.14         6.58   \n2           3   29  Female                 4.98         3.26   \n3           4   27  Female                 3.19         4.58   \n4           5   24    Male                 7.67         6.21   \n\n   phone_usage_hours  social_media_hours  youtube_hours  gaming_hours  \\\n0               3.38                2.73           1.83          5.26   \n1               5.48                1.51           3.13          1.73   \n2               4.83                3.63           0.18          4.71   \n3              10.06                3.95           5.75          2.52   \n4               3.02                1.59           5.46          5.65   \n\n   breaks_per_day  coffee_intake_mg  exercise_minutes  assignments_completed  \\\n0               6               347               111                      2   \n1              13               403                28                     10   \n2               1               419               102                      8   \n3               9               178                28                     18   \n4               8               436               105                      7   \n\n   attendance_percentage  stress_level  focus_score  final_grade  \\\n0                  57.21            10           57        81.87   \n1                  91.27            10           49        60.90   \n2                  63.14             2           38        86.22   \n3                  40.51             6           50        71.77   \n4                  45.53             6           41        90.13   \n\n   productivity_score  \n0               33.78  \n1               48.99  \n2               36.60  \n3               19.87  \n4               52.90  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>student_id</th>\n      <th>age</th>\n      <th>gender</th>\n      <th>study_hours_per_day</th>\n      <th>sleep_hours</th>\n      <th>phone_usage_hours</th>\n      <th>social_media_hours</th>\n      <th>youtube_hours</th>\n      <th>gaming_hours</th>\n      <th>breaks_per_day</th>\n      <th>coffee_intake_mg</th>\n      <th>exercise_minutes</th>\n      <th>assignments_completed</th>\n      <th>attendance_percentage</th>\n      <th>stress_level</th>\n      <th>focus_score</th>\n      <th>final_grade</th>\n      <th>productivity_score</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>1</td>\n      <td>23</td>\n      <td>Female</td>\n      <td>4.35</td>\n      <td>3.63</td>\n      <td>3.38</td>\n      <td>2.73</td>\n      <td>1.83</td>\n      <td>5.26</td>\n      <td>6</td>\n      <td>347</td>\n      <td>111</td>\n      <td>2</td>\n      <td>57.21</td>\n      <td>10</td>\n      <td>57</td>\n      <td>81.87</td>\n      <td>33.78</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>2</td>\n      <td>20</td>\n      <td>Male</td>\n      <td>6.14</td>\n      <td>6.58</td>\n      <td>5.48</td>\n      <td>1.51</td>\n      <td>3.13</td>\n      <td>1.73</td>\n      <td>13</td>\n      <td>403</td>\n      <td>28</td>\n      <td>10</td>\n      <td>91.27</td>\n      <td>10</td>\n      <td>49</td>\n      <td>60.90</td>\n      <td>48.99</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>3</td>\n      <td>29</td>\n      <td>Female</td>\n      <td>4.98</td>\n      <td>3.26</td>\n      <td>4.83</td>\n      <td>3.63</td>\n      <td>0.18</td>\n      <td>4.71</td>\n      <td>1</td>\n      <td>419</td>\n      <td>102</td>\n      <td>8</td>\n      <td>63.14</td>\n      <td>2</td>\n      <td>38</td>\n      <td>86.22</td>\n      <td>36.60</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>4</td>\n      <td>27</td>\n      <td>Female</td>\n      <td>3.19</td>\n      <td>4.58</td>\n      <td>10.06</td>\n      <td>3.95</td>\n      <td>5.75</td>\n      <td>2.52</td>\n      <td>9</td>\n      <td>178</td>\n      <td>28</td>\n      <td>18</td>\n      <td>40.51</td>\n      <td>6</td>\n      <td>50</td>\n      <td>71.77</td>\n      <td>19.87</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>5</td>\n      <td>24</td>\n      <td>Male</td>\n      <td>7.67</td>\n      <td>6.21</td>\n      <td>3.02</td>\n      <td>1.59</td>\n      <td>5.46</td>\n      <td>5.65</td>\n      <td>8</td>\n      <td>436</td>\n      <td>105</td>\n      <td>7</td>\n      <td>45.53</td>\n      <td>6</td>\n      <td>41</td>\n      <td>90.13</td>\n      <td>52.90</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 18
+    },
+    {
+      "id": "0c092b05-a9e8-4949-9bd1-540214bad52f",
+      "cell_type": "code",
+      "source": "lst5= df.tail(5)\ndisplay(lst5)",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": "       student_id  age  gender  study_hours_per_day  sleep_hours  \\\n19995       19996   26  Female                 4.81         7.83   \n19996       19997   22   Other                 0.83         4.49   \n19997       19998   25    Male                 9.36         4.33   \n19998       19999   22  Female                 0.74         4.44   \n19999       20000   19  Female                 3.64         6.35   \n\n       phone_usage_hours  social_media_hours  youtube_hours  gaming_hours  \\\n19995               6.86                6.93           2.77          5.68   \n19996               6.76                3.79           2.95          1.38   \n19997               2.94                6.98           0.35          1.42   \n19998               3.15                5.99           3.11          5.01   \n19999               8.68                0.11           5.19          1.28   \n\n       breaks_per_day  coffee_intake_mg  exercise_minutes  \\\n19995               6               451                 0   \n19996               1               375                13   \n19997               4               413                 1   \n19998               7               319                 1   \n19999               8                50                70   \n\n       assignments_completed  attendance_percentage  stress_level  \\\n19995                     11                  63.69             3   \n19996                      4                  74.06            10   \n19997                     11                  73.18             9   \n19998                      6                  77.02             5   \n19999                      9                  40.08             9   \n\n       focus_score  final_grade  productivity_score  \n19995           89        82.13               60.43  \n19996           56        87.12               17.84  \n19997           69        81.58               65.56  \n19998           53        53.04               28.06  \n19999           65        72.70               30.37  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>student_id</th>\n      <th>age</th>\n      <th>gender</th>\n      <th>study_hours_per_day</th>\n      <th>sleep_hours</th>\n      <th>phone_usage_hours</th>\n      <th>social_media_hours</th>\n      <th>youtube_hours</th>\n      <th>gaming_hours</th>\n      <th>breaks_per_day</th>\n      <th>coffee_intake_mg</th>\n      <th>exercise_minutes</th>\n      <th>assignments_completed</th>\n      <th>attendance_percentage</th>\n      <th>stress_level</th>\n      <th>focus_score</th>\n      <th>final_grade</th>\n      <th>productivity_score</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>19995</th>\n      <td>19996</td>\n      <td>26</td>\n      <td>Female</td>\n      <td>4.81</td>\n      <td>7.83</td>\n      <td>6.86</td>\n      <td>6.93</td>\n      <td>2.77</td>\n      <td>5.68</td>\n      <td>6</td>\n      <td>451</td>\n      <td>0</td>\n      <td>11</td>\n      <td>63.69</td>\n      <td>3</td>\n      <td>89</td>\n      <td>82.13</td>\n      <td>60.43</td>\n    </tr>\n    <tr>\n      <th>19996</th>\n      <td>19997</td>\n      <td>22</td>\n      <td>Other</td>\n      <td>0.83</td>\n      <td>4.49</td>\n      <td>6.76</td>\n      <td>3.79</td>\n      <td>2.95</td>\n      <td>1.38</td>\n      <td>1</td>\n      <td>375</td>\n      <td>13</td>\n      <td>4</td>\n      <td>74.06</td>\n      <td>10</td>\n      <td>56</td>\n      <td>87.12</td>\n      <td>17.84</td>\n    </tr>\n    <tr>\n      <th>19997</th>\n      <td>19998</td>\n      <td>25</td>\n      <td>Male</td>\n      <td>9.36</td>\n      <td>4.33</td>\n      <td>2.94</td>\n      <td>6.98</td>\n      <td>0.35</td>\n      <td>1.42</td>\n      <td>4</td>\n      <td>413</td>\n      <td>1</td>\n      <td>11</td>\n      <td>73.18</td>\n      <td>9</td>\n      <td>69</td>\n      <td>81.58</td>\n      <td>65.56</td>\n    </tr>\n    <tr>\n      <th>19998</th>\n      <td>19999</td>\n      <td>22</td>\n      <td>Female</td>\n      <td>0.74</td>\n      <td>4.44</td>\n      <td>3.15</td>\n      <td>5.99</td>\n      <td>3.11</td>\n      <td>5.01</td>\n      <td>7</td>\n      <td>319</td>\n      <td>1</td>\n      <td>6</td>\n      <td>77.02</td>\n      <td>5</td>\n      <td>53</td>\n      <td>53.04</td>\n      <td>28.06</td>\n    </tr>\n    <tr>\n      <th>19999</th>\n      <td>20000</td>\n      <td>19</td>\n      <td>Female</td>\n      <td>3.64</td>\n      <td>6.35</td>\n      <td>8.68</td>\n      <td>0.11</td>\n      <td>5.19</td>\n      <td>1.28</td>\n      <td>8</td>\n      <td>50</td>\n      <td>70</td>\n      <td>9</td>\n      <td>40.08</td>\n      <td>9</td>\n      <td>65</td>\n      <td>72.70</td>\n      <td>30.37</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 17
+    },
+    {
+      "id": "4e147c37-b979-4d55-846f-4110fd935e32",
+      "cell_type": "code",
+      "source": "checkmissingvalue = df.isnull().sum()\ndisplay(checkmissingvalue)",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": "student_id               0\nage                      0\ngender                   0\nstudy_hours_per_day      0\nsleep_hours              0\nphone_usage_hours        0\nsocial_media_hours       0\nyoutube_hours            0\ngaming_hours             0\nbreaks_per_day           0\ncoffee_intake_mg         0\nexercise_minutes         0\nassignments_completed    0\nattendance_percentage    0\nstress_level             0\nfocus_score              0\nfinal_grade              0\nproductivity_score       0\ndtype: int64"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 20
+    },
+    {
+      "id": "31afda58-98b1-402b-af01-47b3552017c2",
+      "cell_type": "code",
+      "source": "df=df.fillna(\"To Be Found\")\nprint(df.isnull().sum())",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "student_id               0\nage                      0\ngender                   0\nstudy_hours_per_day      0\nsleep_hours              0\nphone_usage_hours        0\nsocial_media_hours       0\nyoutube_hours            0\ngaming_hours             0\nbreaks_per_day           0\ncoffee_intake_mg         0\nexercise_minutes         0\nassignments_completed    0\nattendance_percentage    0\nstress_level             0\nfocus_score              0\nfinal_grade              0\nproductivity_score       0\ndtype: int64\n"
+        }
+      ],
+      "execution_count": 22
+    },
+    {
+      "id": "8aebf3a1-97ae-4056-970e-d1d8c230cefa",
+      "cell_type": "code",
+      "source": "numeric= df.select_dtypes(include=['number'])\ntotalstd = numeric.stack().std()\nprint(totalstd)",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "2731.010036433747\n"
+        }
+      ],
+      "execution_count": 24
+    },
+    {
+      "id": "f16155c8-bd78-4b3f-baee-a21fcb8abb73",
+      "cell_type": "code",
+      "source": "fiftymean = df.head(50)\nmeanvalue = fiftymean.mean(numeric_only=True)\nprint(round(meanvalue,2))\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "student_id                25.50\nage                       23.54\nstudy_hours_per_day        5.10\nsleep_hours                6.47\nphone_usage_hours          6.44\nsocial_media_hours         3.81\nyoutube_hours              2.93\ngaming_hours               3.05\nbreaks_per_day             7.72\ncoffee_intake_mg         278.68\nexercise_minutes          62.84\nassignments_completed      8.58\nattendance_percentage     65.67\nstress_level               6.56\nfocus_score               64.02\nfinal_grade               71.12\nproductivity_score        47.09\ndtype: float64\n"
+        }
+      ],
+      "execution_count": 43
+    },
+    {
+      "id": "44e2c8a7-88eb-4cde-a5df-8a3e53bc2c15",
+      "cell_type": "code",
+      "source": "manandwomen = df['gender'].value_counts()\ndisplay(manandwomen)",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": "gender\nFemale    9640\nMale      9582\nOther      778\nName: count, dtype: int64"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 47
+    },
+    {
+      "id": "cb0c8cdb-e3b5-4f4b-bad1-029c86ca9f31",
+      "cell_type": "code",
+      "source": "avg_age_female = df[df['gender'] == 'Female']['age'].mean()\nprint(avg_age_female)",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "23.005912863070538\n"
+        }
+      ],
+      "execution_count": 52
+    },
+    {
+      "id": "aac95289-7e1d-4bcf-8a3e-67a2392605da",
+      "cell_type": "code",
+      "source": "summary = df.groupby(df['productivity_score']>70)['study_hours_per_day'].agg('mean','std')\nsummary.index=['pri=oductivity<=70','productivity>70']\nprint(round(summary, 2))",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "pri=oductivity<=70    4.84\nproductivity>70       8.41\nName: study_hours_per_day, dtype: float64\n"
+        }
+      ],
+      "execution_count": 68
+    },
+    {
+      "id": "dd12bebc-4c6d-4aae-9fb0-91f4e89dacc9",
+      "cell_type": "code",
+      "source": "gender = df.groupby('gender')[['age', 'final_grade']].describe()\nprint(gender)",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "           age                                                    final_grade  \\\n         count       mean       std   min   25%   50%   75%   max       count   \ngender                                                                          \nFemale  9640.0  23.005913  3.752741  17.0  20.0  23.0  26.0  29.0      9640.0   \nMale    9582.0  22.982989  3.759721  17.0  20.0  23.0  26.0  29.0      9582.0   \nOther    778.0  23.327763  3.711858  17.0  20.0  23.0  27.0  29.0       778.0   \n\n                                                                      \n             mean        std    min      25%     50%      75%    max  \ngender                                                                \nFemale  70.369892  17.239430  40.00  55.4800  70.725  85.3600  99.99  \nMale    70.178274  17.288102  40.01  55.5125  70.065  85.2375  99.99  \nOther   70.069666  17.749497  40.11  54.6625  69.390  85.7925  99.99  \n"
+        }
+      ],
+      "execution_count": 73
+    },
+    {
+      "id": "6efcb14f-53a1-4489-8875-ef689868b502",
+      "cell_type": "code",
+      "source": "max_study = df['study_hours_per_day'].max()\nmax_study_people = df[df['study_hours_per_day'] == max_study]\ncount_max = len(max_study_people)\nhigh_stress = max_study_people[max_study_people['stress_level'] > 8]\npercentage = (len(high_stress) / count_max) * 100\nprint(f\"Max Study Hours: {max_study}\")\nprint(f\"Count: {count_max}\")\nprint(f\"Percentage with High Stress: {percentage}%\")",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "Max Study Hours: 10.0\nCount: 9\nPercentage with High Stress: 22.22222222222222%\n"
+        }
+      ],
+      "execution_count": 81
+    },
+    {
+      "id": "98734de0-a882-4ec2-a0ef-d1bb8257a475",
+      "cell_type": "code",
+      "source": "",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [],
+      "execution_count": null
+    }
+  ]
+}
